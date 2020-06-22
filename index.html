@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Media and Peacebuilding Project</title>
+
+	<!--Loading Google API-->
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  	<script type="text/javascript">
+    	google.charts.load('current', {packages: ['corechart']});
+    	google.charts.setOnLoadCallback(Chart);
+
+
+    	function Chart() {
+      	DrawChart('Daily Hate Speech Intensity', 'SELECT A,B,C,D,E,F,G', AvgIntensity);
+      	DrawChart('Daily Hate Speech Intensity', 'SELECT A,J', AvgDailyIntensity);
+      	DrawChart('Shows Hate Speech Code', 'SELECT A,B', ShowCode4);
+      	DrawChart('Shows Hate Speech Code', 'SELECT A,C', ShowCode5);
+      	DrawChart('Shows Hate Speech Code', 'SELECT A,D', ShowCode6);
+
+      	};
+        
+
+      	function DrawChart(sheetName, query, responseHandler) {
+        var queryString = encodeURIComponent(query);
+        var query = new google.visualization.Query(
+        	'https://docs.google.com/spreadsheets/d/1tBT8MrzESc394tK5rUj5ke5IJ2_n-J0r2p1jZsTNxOE/gviz/tq?sheet=' + sheetName + '&headers=1&tq=' +queryString
+        );
+      
+        query.send(responseHandler);
+      	} //DrawChart
+
+
+      	//Average Intensity Over Seven Days
+      	function AvgIntensity(response){
+      	//get the data
+      	var data = response.getDataTable();
+      
+      	//set options
+      	var options= {
+          isStacked: 'percent',
+          height: 600,
+          width: 1100,
+          legend: {position: 'right'},
+          hAxis: {
+            minValue: 0,
+            ticks: [0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1]
+          },
+            title: 'Hate Speech Intensity Over Seven Days',
+
+          series: {
+    		0:{color:'#4cb360'},
+    		1:{color:'#f8f2ae'},
+    		2:{color:'#f9db20'},
+    		3:{color:'#fa8a10'},
+    		4:{color:'#fd2f25'},
+    		5:{color:'#040000'}
+  			}
+        };
+
+  
+      	//create the chart and draw it
+      	var chart = new google.visualization.BarChart(document.getElementById('intensity'));
+      	chart.draw(data, options);
+    	}	
+
+    	//Average Daily Intensity Over Seven Days
+    	function AvgDailyIntensity(response){
+    		//get the data
+      		var data = response.getDataTable();
+
+      		var options = {
+          		title: 'Daily Hate Speech Temperature',
+          		legend: { position: 'bottom' },
+          		animation: {
+          			"startup": true,
+          			"duration": 1000,
+          			"easing": 'in'
+          		}
+        	};
+
+        	var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
+        	chart.draw(data, options);
+
+
+    	}
+
+    	//Shows using keywords of Level 4
+    	function ShowCode4(response){
+      	//get the data
+      	var data = response.getDataTable();
+      
+      	//set options
+      	var options = {
+          title: 'Shows using Code 4 Hate Speech',
+          pieHole: 0.4,
+          //slices: [{color: 'black'}]
+        };
+
+      	//create the chart and draw it
+      	var code4chart = new google.visualization.PieChart(document.getElementById('donutchart1'));
+      	code4chart.draw(data, options);
+    	}	
+
+
+    	//Shows using keywords of Level 5
+    	function ShowCode5(response){
+      	//get the data
+      	var data = response.getDataTable();
+      
+      	//set options
+      	var options = {
+          title: 'Shows using Code 5 Hate Speech',
+          pieHole: 0.4,
+        };
+
+      	//create the chart and draw it
+      	var code5chart = new google.visualization.PieChart(document.getElementById('donutchart2'));
+      	code5chart.draw(data, options);
+    	}
+
+    	//Shows using keywords of Level 6
+    	function ShowCode6(response){
+      	//get the data
+      	var data = response.getDataTable();
+      
+      	//set options
+      	var options = {
+          title: 'Shows using Code 6 Hate Speech',
+          pieHole: 0.4,
+        };
+
+      	//create the chart and draw it
+      	var code6chart = new google.visualization.PieChart(document.getElementById('donutchart3'));
+      	code6chart.draw(data, options);
+    	}
+    
+  	</script>
+
+</head>
+<body>
+	<div id="container">
+
+	<h1 align="left">Monitoring Hate Speech in the US Media</h1>
+	<p>Hate speech targeting minority groups is often associated with acts of political violence. One of the main disseminators of hate speech is the mass media, which continues to draw large audiences in Western states, but also act as a key source of content on social media. This page is based on a research project that aims to create awareness and accountability regarding hate speech by identifying the sources, targets and intensity of hate speech in leading US media political talk/news shows, focusing on the top 10 conservative and top 10 liberal shows by audience size across radio, cable news and YouTube. The study uses a keyword-based automated extraction method to identify potential cases of hate speech, which are then validated by human coders on a novel 6-point hate speech intensity scale.</p>
+
+	<h2>Introduction</h2>
+	<img src="Images/Image1.png" style="float:right;">
+	<p>Hate speech is defined in this study as negative speech that targets individuals or groups (defined as individuals who share a commonality such as gender, age bracket, ethnicity, nationality, profession, socio-economic status, sexual orientation and religion). Hate speech can take on many forms, including speech, text, images, videos, gestures and other forms of communication. Hate speech is based on the human emotion of hate, which is an enduring dislike involving a loss of empathy and possible desire for harm by the in-group (us) against the targeted out-group (them). There is no internationally accepted definition of hate speech and the term is problematic for many reasons. </p>
+
+	<p>In our use of the term, we do not assume that all members of the in-group audience respond in a uniform manner to the speech and assume limited, nuanced effects that vary by individual. Hate speech, therefore, should only be understood as speech that has the potential to increase hate in the recipient audience. Furthermore, even when hate speech increases hate, it does not necessarily mean that the out-group is in greater danger of physical harm as other moral, cultural, political and legal inhibitions can deter a shift from the emotion of hate to the act of violence. Factors that can increase the risk of violence include the speaker’s influence, audience susceptibility, the medium and the social/historical context</p>
+
+	
+	<h2>Hate Speech Intensity Scale</h2>
+	<p>While much of the literature on hate speech views the concept as a single category, it is important to acknowledge that variations of intensity are distinguishable. There are clearly differences, for example, between denouncing an action associated with a group versus calling for genocide against a group. To this end, this report introduces a 6-point color-coded hate speech intensity scale. This scale was devised from an extensive content analysis of US news media and a review of the academic literature on hate speech and related topics.</p> 
+
+	<img src="Images/Image2.png" style="float: left; margin-top: 10px; margin-right: 10px;">
+	<h5><b>The scale is presented in the table below and shows a color, number, title, description and examples for each point on the scale. Importantly, within the description category, a distinction is made between “rhetorical language,” which are negative words/phrases associated with a group occurring in the past, present and future and “responses,” which describes what the in-group should do (or has done or is doing) against the out-group.</b></h5>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+	<h2>Hate Speech Analysis</h2>
+	<p>This project aims to track the sources, targets and intensity of hate speech across the US political talk/news shows, especially regarding shows that have daily audiences of at least 1 million listeners/followers. To this end, we identified the top 10 conservative and liberal media shows based around personalities across cable news, radio and YouTube</p>
+
+	<img src="Images/Keywords Cloud.png" style="float: right; width: 500px; height: 250px;">
+	<p>To identify potential examples of hate speech (based on the 6-point scale), two dictionaries were created. The first called “Subjects” identified groups there were potential targets of hate speech. The second called “Keywords” identified negative words and phrases that could be applied to the subjects.</p>
+
+	<p>For each show, transcripts were gathered for the first seven weekdays of June 2018 (June 1st
+	to June 11th) and turned into PDFs. Only the first hour of each show was included in the study. For cable news, transcripts were gathered from Lexis Nexis. For radio, shows were gathered either from YouTube or recorded from podcasts/show websites etc. and transcribed via YouTube closed captioning. YouTube show transcripts were gathered from YouTube closed captioning. Shows were reviewed to ensure that transcripts were accurate.</p>
+	<br><br><br>
+
+	<h2>Findings</h2>
+	<h3>Daily Hate Speech Monitoring</h3>
+	<p>One of the long-term goals of this project is to identify the volume and intensity of hate speech in the US media on a daily basis, with the goal of producing automatically-generated reports each day. This could act like a thermometer on the level of hate in the country and as a possible early-warning signal if subsequent research can correlate hate speech intensity with hate crimes and even political violence. The following chart and table highlight our findings over the 7-day study period.</p>
+	<div id="intensity"></div>
+	<br>
+
+	<h3>Targets of Hate Speech</h3>
+	<p>Another goal of this project is to identify the targets of hate speech. To this end, the following chart show the top 10 targets of hate speech for the total 7-day period. Below is an interactive graph that portrays which shows targeted the chosen group most.</p>
+
+	<!--tableau embed code for dashboard-->
+	<div class='tableauPlaceholder' id='viz1575859896234' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;VD&#47;VDCFinalProject&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='VDCFinalProject&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;VD&#47;VDCFinalProject&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                
+	<script type='text/javascript'>                    var divElement = document.getElementById('viz1575859896234');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+	</script>
+	<br><br>
+
+	<h3>Shows using Higher Intensity of Hate Speech</h3>
+	<p>As per this show-by-show analysis, "Infowars" uses hate speech terms and phrases of higher intensities (between 4 and 6) significantly more times than the other shows</p>
+
+    <div id="donutchart1" style="width: 900px; height: 500px;"></div>
+    <div id="donutchart2" style="width: 900px; height: 500px;"></div>
+    <div id="donutchart3" style="width: 900px; height: 500px;"></div>
+
+    <h2>Future Research</h2>
+    <img src="Images/Image3.png" style="float: right;">
+    <p>With the abundance of political talk shows in the US, there is no shortage of potential data to
+	analyze. However, the semi-automated human coding effort required to analyze just 7 days
+	worth of 20 shows was formidable. Our goal is to implement machine learning techniques and a
+	way to automate classification of social media tweet extracts<br></p>
+
+	<p>As the goal of monitoring these media sources is more one of observing trends over time, and of comparing sources relative to each other, as long as the same classifier is applied to all of the sources, a less-than perfect rate of missed instances will still yield meaningful results. Our current methodology only captures a sample of more obvious cases of hate speech and likely misses more subtle forms that require a deeper reading. This limitation will improve over time as we continue to build the two dictionaries. However, we also plan to look for additional means of capture to complement the existing approach to gather larger samples over time.</p>
+
+    <div id="line_chart"></div>
+	<br>
+
+	<p>In our hyper-mediated world, those who hold large audiences have a responsibility to avoid building hate amongst their followers towards various minority and rival political groups. The goal of our project is to identify and display instances and trends in group-targeted hate – especially the most severe kind involving demonization, dehumanization and violence advocacy – to foster awareness, accountability and de-escalation.</p>
+
+</div>
+</body>
+</html>
